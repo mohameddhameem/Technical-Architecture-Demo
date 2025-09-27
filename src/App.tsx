@@ -19,7 +19,15 @@ import {
   Cpu,
   Cloud,
   Link,
-  Shield
+  Shield,
+  Moon,
+  Sun,
+  LogIn,
+  ExternalLink,
+  ChevronDown,
+  Server,
+  TestTube,
+  Settings
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { UBSLogo } from './components/UBSLogo';
@@ -84,9 +92,9 @@ const ProcessingStage = ({
     className={`relative p-4 rounded-lg border-2 transition-all duration-500 ${
       isActive 
         ? isInSpeechFoundation 
-          ? 'border-red-500 bg-red-50 shadow-lg' 
-          : 'border-red-500 bg-red-50 shadow-lg'
-        : 'border-gray-200 bg-white'
+          ? 'border-red-500 bg-red-50 dark:bg-red-900/30 shadow-lg' 
+          : 'border-red-500 bg-red-50 dark:bg-red-900/30 shadow-lg'
+        : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800'
     } ${(isLanguageDetection || isTranscriptionRouting) && isActive ? 'overflow-visible relative mb-8' : ''}`}
     initial={{ scale: 0.9, opacity: 0 }}
     animate={{ 
@@ -111,20 +119,20 @@ const ProcessingStage = ({
         animate={isProcessing && !isLanguageDetection ? { rotate: 360 } : {}}
         transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
         className={`p-2 rounded-full ${
-          isActive ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600'
+          isActive ? 'bg-red-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300'
         } ${(isLanguageDetection || isTranscriptionRouting) && isActive ? 'relative z-10' : ''}`}
       >
         <Icon size={20} />
       </motion.div>
       
       <div className={(isLanguageDetection || isTranscriptionRouting) && isActive ? 'relative z-10' : ''}>
-        <h3 className="font-semibold text-gray-800 mb-1 text-sm">{title}</h3>
-        <p className="text-xs text-gray-600 max-w-28">{description}</p>
+        <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-1 text-sm">{title}</h3>
+        <p className="text-xs text-gray-600 dark:text-gray-400 max-w-28">{description}</p>
         
         {/* Enhanced description for Language Detection */}
         {isLanguageDetection && isActive && (
           <motion.p 
-            className="text-xs text-green-600 font-medium mt-1"
+            className="text-xs text-green-600 dark:text-green-400 font-medium mt-1"
             animate={{ opacity: [0.7, 1, 0.7] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
@@ -135,7 +143,7 @@ const ProcessingStage = ({
         {/* Enhanced description for Transcription Routing */}
         {isTranscriptionRouting && isActive && (
           <motion.p 
-            className="text-xs text-blue-600 font-medium mt-1"
+            className="text-xs text-blue-600 dark:text-blue-400 font-medium mt-1"
             animate={{ opacity: [0.7, 1, 0.7] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
@@ -284,7 +292,7 @@ const TranscriptionRouter = ({ isActive }: { isActive: boolean }) => {
 
   return (
     <motion.div 
-      className="absolute top-full left-0 mt-2 w-80 max-w-[90vw] bg-white border-2 border-blue-200 rounded-lg p-3 shadow-xl z-50"
+      className="absolute top-full left-0 mt-2 w-80 max-w-[90vw] bg-white dark:bg-gray-800 border-2 border-blue-200 dark:border-blue-600 rounded-lg p-3 shadow-xl z-[60]"
       initial={{ opacity: 0, y: -10, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5 }}
@@ -297,13 +305,13 @@ const TranscriptionRouter = ({ isActive }: { isActive: boolean }) => {
           transition={{ duration: 2, repeat: Infinity }}
         >
           <Cpu className="text-blue-600" size={16} />
-          <span className="text-xs font-semibold text-blue-700">Intelligent Model Router</span>
+          <span className="text-xs font-semibold text-blue-700 dark:text-blue-300">Intelligent Model Router</span>
         </motion.div>
       </div>
       
       {/* Routing Factors Analysis */}
-      <div className="mb-3 p-2 bg-gray-50 rounded text-xs">
-        <div className="font-medium text-gray-700 mb-2">
+      <div className="mb-3 p-2 bg-gray-50 dark:bg-gray-700 rounded text-xs">
+        <div className="font-medium text-gray-700 dark:text-gray-300 mb-2">
           {routingPhase === 'analyzing' ? 'Analyzing Requirements:' : 
            routingPhase === 'deciding' ? 'Making Routing Decision...' : 
            'Requirements Analyzed:'}
@@ -311,8 +319,8 @@ const TranscriptionRouter = ({ isActive }: { isActive: boolean }) => {
         {routingFactors.map((factor, index) => (
           <motion.div 
             key={index}
-            className={`text-gray-600 flex items-center justify-between mb-1 ${
-              routingPhase === 'analyzing' && index === factorIndex ? 'bg-blue-100 px-1 py-0.5 rounded' : ''
+            className={`text-gray-600 dark:text-gray-400 flex items-center justify-between mb-1 ${
+              routingPhase === 'analyzing' && index === factorIndex ? 'bg-blue-100 dark:bg-blue-900/30 px-1 py-0.5 rounded' : ''
             }`}
             initial={{ opacity: 0 }}
             animate={{ opacity: index <= factorIndex ? 1 : 0.3 }}
@@ -320,7 +328,7 @@ const TranscriptionRouter = ({ isActive }: { isActive: boolean }) => {
           >
             <div className="flex items-center space-x-1">
               <span className={`w-1 h-1 rounded-full ${
-                index <= factorIndex ? 'bg-blue-400' : 'bg-gray-300'
+                index <= factorIndex ? 'bg-blue-400' : 'bg-gray-300 dark:bg-gray-600'
               }`}></span>
               <span>{factor.text}</span>
             </div>
@@ -337,13 +345,13 @@ const TranscriptionRouter = ({ isActive }: { isActive: boolean }) => {
       {/* Routing Decision Display */}
       {routingPhase !== 'analyzing' && (
         <motion.div 
-          className="mb-3 p-2 bg-blue-50 rounded text-xs border border-blue-200"
+          className="mb-3 p-2 bg-blue-50 dark:bg-blue-900/30 rounded text-xs border border-blue-200 dark:border-blue-600"
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           transition={{ duration: 0.8 }}
         >
-          <div className="font-medium text-blue-700 mb-1">Routing Decision:</div>
-          <div className="text-blue-600">
+          <div className="font-medium text-blue-700 dark:text-blue-300 mb-1">Routing Decision:</div>
+          <div className="text-blue-600 dark:text-blue-400">
             Enterprise security + multi-language → <strong>Azure Speech-to-Text</strong>
           </div>
         </motion.div>
@@ -356,8 +364,8 @@ const TranscriptionRouter = ({ isActive }: { isActive: boolean }) => {
             key={model.name}
             className={`flex items-center justify-between p-2 rounded transition-all ${
               selectedModel === model.name 
-                ? 'bg-green-100 border border-green-300 shadow-sm' 
-                : 'bg-gray-50'
+                ? 'bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-600 shadow-sm' 
+                : 'bg-gray-50 dark:bg-gray-700'
             }`}
             animate={selectedModel === model.name ? {
               scale: [1, 1.05, 1],
@@ -367,15 +375,15 @@ const TranscriptionRouter = ({ isActive }: { isActive: boolean }) => {
             <div className="flex items-center space-x-2 flex-1 min-w-0">
               <span className="text-sm flex-shrink-0">{model.icon}</span>
               <div className="min-w-0 flex-1">
-                <div className="text-xs font-medium text-gray-700 truncate">{model.name}</div>
-                <div className="text-xs text-gray-500 truncate">{model.provider}</div>
+                <div className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate">{model.name}</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400 truncate">{model.provider}</div>
               </div>
             </div>
             
             <div className="flex items-center space-x-2 flex-shrink-0 ml-2">
               {selectedModel === model.name && (
                 <motion.div
-                  className="text-xs text-green-600 font-medium whitespace-nowrap"
+                  className="text-xs text-green-600 dark:text-green-400 font-medium whitespace-nowrap"
                   animate={{ opacity: [0.5, 1, 0.5] }}
                   transition={{ duration: 1, repeat: Infinity }}
                 >
@@ -383,8 +391,8 @@ const TranscriptionRouter = ({ isActive }: { isActive: boolean }) => {
                 </motion.div>
               )}
               <span className={`text-xs font-medium whitespace-nowrap ${
-                model.match === 'Best Match' ? 'text-green-600' : 
-                model.match === 'Good' ? 'text-blue-600' : 'text-gray-500'
+                model.match === 'Best Match' ? 'text-green-600 dark:text-green-400' : 
+                model.match === 'Good' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400'
               }`}>
                 {model.match}
               </span>
@@ -400,17 +408,17 @@ const TranscriptionRouter = ({ isActive }: { isActive: boolean }) => {
         transition={{ duration: 2, repeat: Infinity }}
       >
         {routingPhase === 'analyzing' && (
-          <span className="text-xs text-blue-600 font-medium">
+          <span className="text-xs text-blue-600 dark:text-blue-400 font-medium">
             Analyzing requirements... ({factorIndex + 1}/{routingFactors.length})
           </span>
         )}
         {routingPhase === 'deciding' && (
-          <span className="text-xs text-orange-600 font-medium">
+          <span className="text-xs text-orange-600 dark:text-orange-400 font-medium">
             Computing optimal route...
           </span>
         )}
         {routingPhase === 'selected' && selectedModel && (
-          <span className="text-xs text-green-600 font-medium">
+          <span className="text-xs text-green-600 dark:text-green-400 font-medium">
             ✓ Routed to {selectedModel}
           </span>
         )}
@@ -444,7 +452,7 @@ const LanguageDetector = ({ isActive }: { isActive: boolean }) => {
 
   return (
     <motion.div 
-      className="absolute top-full left-0 mt-2 w-72 max-w-[90vw] bg-white border-2 border-green-200 rounded-lg p-3 shadow-xl z-50"
+      className="absolute top-full left-0 mt-2 w-72 max-w-[90vw] bg-white dark:bg-gray-800 border-2 border-green-200 dark:border-green-600 rounded-lg p-3 shadow-xl z-[60]"
       initial={{ opacity: 0, y: -10, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5 }}
@@ -457,7 +465,7 @@ const LanguageDetector = ({ isActive }: { isActive: boolean }) => {
           transition={{ duration: 2, repeat: Infinity }}
         >
           <Brain className="text-green-600" size={16} />
-          <span className="text-xs font-semibold text-green-700">AI Language Analysis</span>
+          <span className="text-xs font-semibold text-green-700 dark:text-green-400">AI Language Analysis</span>
         </motion.div>
       </div>
       
@@ -467,7 +475,7 @@ const LanguageDetector = ({ isActive }: { isActive: boolean }) => {
           <motion.div
             key={lang.code}
             className={`flex items-center justify-between p-2 rounded ${
-              index === currentAnalyzing ? 'bg-green-50 border border-green-200' : 'bg-gray-50'
+              index === currentAnalyzing ? 'bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-600' : 'bg-gray-50 dark:bg-gray-700'
             }`}
             animate={index === currentAnalyzing ? {
               scale: [1, 1.02, 1],
@@ -479,14 +487,14 @@ const LanguageDetector = ({ isActive }: { isActive: boolean }) => {
               <div className={`w-2 h-2 rounded-full ${lang.color} ${
                 index === currentAnalyzing ? 'animate-pulse' : ''
               }`} />
-              <span className="text-xs font-medium text-gray-700">{lang.code}</span>
-              <span className="text-xs text-gray-500">{lang.name}</span>
+              <span className="text-xs font-medium text-gray-700 dark:text-gray-300">{lang.code}</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400">{lang.name}</span>
             </div>
             
             <div className="flex items-center space-x-2">
               {index === currentAnalyzing && (
                 <motion.div
-                  className="text-xs text-green-600"
+                  className="text-xs text-green-600 dark:text-green-400"
                   animate={{ opacity: [0.5, 1, 0.5] }}
                   transition={{ duration: 1, repeat: Infinity }}
                 >
@@ -510,7 +518,7 @@ const LanguageDetector = ({ isActive }: { isActive: boolean }) => {
         animate={{ opacity: [0.7, 1, 0.7] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <span className="text-xs text-green-600 font-medium">
+        <span className="text-xs text-green-600 dark:text-green-400 font-medium">
           Detecting primary language...
         </span>
       </motion.div>
@@ -603,7 +611,7 @@ const ConversationPhone = ({ isActive }: { isActive: boolean }) => (
 
 const OutputPreview = ({ isVisible, content }: { isVisible: boolean; content: string }) => (
   <motion.div
-    className="mt-4 p-4 bg-gray-50 rounded-lg border"
+    className="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600"
     initial={{ opacity: 0, height: 0 }}
     animate={{ 
       opacity: isVisible ? 1 : 0,
@@ -612,11 +620,11 @@ const OutputPreview = ({ isVisible, content }: { isVisible: boolean; content: st
     transition={{ duration: 0.5 }}
   >
     <div className="flex items-center space-x-2 mb-2">
-      <FileText size={16} className="text-gray-600" />
-      <span className="text-sm font-medium text-gray-700">Output Preview</span>
+      <FileText size={16} className="text-gray-600 dark:text-gray-400" />
+      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Output Preview</span>
     </div>
     <motion.p 
-      className="text-sm text-gray-600"
+      className="text-sm text-gray-600 dark:text-gray-400"
       initial={{ opacity: 0 }}
       animate={{ opacity: isVisible ? 1 : 0 }}
       transition={{ delay: 0.3 }}
@@ -626,9 +634,277 @@ const OutputPreview = ({ isVisible, content }: { isVisible: boolean; content: st
   </motion.div>
 );
 
+const EnvironmentSelector = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [showDemo, setShowDemo] = useState(false);
+  const [selectedEnv, setSelectedEnv] = useState<any>(null);
+
+  const environments = [
+    {
+      id: 'dev',
+      name: 'Development',
+      description: 'Development environment for testing',
+      url: 'https://speech-foundation-dev.ubs.com',
+      icon: Settings,
+      color: 'bg-blue-500',
+      borderColor: 'border-blue-200 dark:border-blue-600',
+      bgColor: 'bg-blue-50 dark:bg-blue-900/30',
+      status: 'Online',
+      features: ['Debug Mode', 'Test Data', 'Full Logging']
+    },
+    {
+      id: 'te1',
+      name: 'TE1',
+      description: 'Test environment 1',
+      url: 'https://speech-foundation-te1.ubs.com',
+      icon: TestTube,
+      color: 'bg-orange-500',
+      borderColor: 'border-orange-200 dark:border-orange-600',
+      bgColor: 'bg-orange-50 dark:bg-orange-900/30',
+      status: 'Online',
+      features: ['Performance Testing', 'Load Balancing', 'Monitoring']
+    },
+    {
+      id: 'te2',
+      name: 'TE2',
+      description: 'Pre Production - CID Enabled',
+      url: 'https://speech-foundation-te2.ubs.com',
+      icon: Server,
+      color: 'bg-green-500',
+      borderColor: 'border-green-200 dark:border-green-600',
+      bgColor: 'bg-green-50 dark:bg-green-900/30',
+      status: 'Online',
+      features: ['CID Integration', 'Production Data', 'Security Enabled']
+    }
+  ];
+
+  const handleEnvironmentClick = (env: any) => {
+    console.log(`Demo: Opening ${env.name} environment`);
+    setSelectedEnv(env);
+    setIsOpen(false);
+    setShowDemo(true);
+  };
+
+  return (
+    <div className="relative">
+      <motion.button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white border border-red-700 shadow-sm hover:shadow-md transition-all duration-200"
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        aria-label="Login to Speech Foundation Service"
+      >
+        <LogIn size={16} />
+        <span className="text-sm font-medium">Login</span>
+        <ChevronDown 
+          size={14} 
+          className={`transform transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+        />
+      </motion.button>
+
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 z-[100] bg-black/20 backdrop-blur-sm" 
+            onClick={() => setIsOpen(false)}
+          />
+          
+          {/* Dropdown Menu */}
+          <motion.div
+            className="absolute top-full right-0 mt-2 w-64 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-2xl z-[101]"
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+          >
+            {/* Environment Options */}
+            <div className="p-2 space-y-2">
+              {environments.map((env) => {
+                const IconComponent = env.icon;
+                return (
+                  <motion.button
+                    key={env.id}
+                    onClick={() => handleEnvironmentClick(env)}
+                    className={`w-full p-3 rounded-lg border-2 ${env.borderColor} ${env.bgColor} hover:shadow-md transition-all duration-200 text-left group`}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className={`p-2 rounded-full ${env.color} text-white`}>
+                          <IconComponent size={16} />
+                        </div>
+                        <div className="font-medium text-gray-900 dark:text-gray-100 text-sm">
+                          {env.name}
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-xs text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300">
+                          Launch
+                        </span>
+                        <ExternalLink 
+                          size={14} 
+                          className="text-gray-400 group-hover:text-red-600 transition-colors" 
+                        />
+                      </div>
+                    </div>
+                  </motion.button>
+                );
+              })}
+            </div>
+
+            {/* Footer */}
+            <div className="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-b-lg border-t border-gray-200 dark:border-gray-600">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <Shield className="text-gray-500 dark:text-gray-400" size={14} />
+                  <span className="text-xs text-gray-600 dark:text-gray-400">UBS Secure Access</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-xs text-gray-600 dark:text-gray-400">All systems operational</span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </>
+      )}
+
+      {/* Demo Modal */}
+      {showDemo && selectedEnv && (
+        <>
+          {/* Modal Backdrop */}
+          <div 
+            className="fixed inset-0 z-[150] bg-black/50 backdrop-blur-sm" 
+            onClick={() => setShowDemo(false)}
+          />
+          
+          {/* Demo Modal */}
+          <motion.div
+            className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 max-w-[90vw] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-2xl z-[151]"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.2 }}
+          >
+            {/* Modal Header */}
+            <div className={`p-4 ${selectedEnv.bgColor} border-b border-gray-200 dark:border-gray-600 rounded-t-lg`}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className={`p-2 rounded-full ${selectedEnv.color} text-white`}>
+                    <selectedEnv.icon size={20} />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-gray-100">
+                      {selectedEnv.name} Environment
+                    </h3>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">
+                      Speech Foundation Service Demo
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowDemo(false)}
+                  className="p-1 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                >
+                  <span className="text-gray-500 dark:text-gray-400">✕</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-4 space-y-4">
+              {/* Environment Info */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Status:</span>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span className="text-sm font-medium text-green-600 dark:text-green-400">
+                      {selectedEnv.status}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">URL:</span>
+                  <span className="text-xs font-mono text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
+                    {selectedEnv.url}
+                  </span>
+                </div>
+
+                <div>
+                  <span className="text-sm text-gray-600 dark:text-gray-400 block mb-2">Features:</span>
+                  <div className="flex flex-wrap gap-1">
+                    {selectedEnv.features.map((feature: string, index: number) => (
+                      <span
+                        key={index}
+                        className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full"
+                      >
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Demo Notice */}
+              <div className="p-3 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-600 rounded-lg">
+                <div className="flex items-center space-x-2 mb-2">
+                  <Monitor className="text-blue-600 dark:text-blue-400" size={16} />
+                  <span className="text-sm font-medium text-blue-700 dark:text-blue-300">Demo Mode</span>
+                </div>
+                <p className="text-xs text-blue-600 dark:text-blue-400">
+                  This is a visualization demo. In a real environment, this would redirect you to the 
+                  actual Speech Foundation Service interface for {selectedEnv.name}.
+                </p>
+              </div>
+
+              {/* Actions */}
+              <div className="flex space-x-2 pt-2">
+                <motion.button
+                  onClick={() => setShowDemo(false)}
+                  className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Close
+                </motion.button>
+                <motion.button
+                  onClick={() => {
+                    console.log(`Demo: Would redirect to ${selectedEnv.name} environment`);
+                    setShowDemo(false);
+                  }}
+                  className={`flex-1 px-4 py-2 text-sm font-medium text-white ${selectedEnv.color} rounded-lg hover:opacity-90 transition-opacity`}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Launch Demo
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </div>
+  );
+};
+
 export default function App() {
   const [currentStage, setCurrentStage] = useState(0);
   const [cycleCount, setCycleCount] = useState(0);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Toggle dark mode and apply to document
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    if (!isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  };
 
   const stages = [
     { 
@@ -678,26 +954,52 @@ export default function App() {
   }, [stages.length]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-red-50 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-red-50 dark:from-gray-900 dark:to-gray-800 p-8 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}
         <motion.div 
-          className="text-center mb-8"
+          className="mb-8"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <div className="flex items-center justify-center space-x-4 mb-4">
-            <div className="flex items-center space-x-3">
+          <div className="relative mb-4">
+            {/* UBS Logo - Positioned absolutely on the left */}
+            <div className="absolute left-0 top-1/2 transform -translate-y-1/2">
               <UBSLogo className="text-red-600" width={100} height={34} />
-              <Brain className="text-red-600" size={32} />
             </div>
-            <h1 className="text-3xl font-bold text-gray-800">
-              Speech Foundation - AI Platform
-            </h1>
+            
+            {/* Controls - Positioned absolutely on the right */}
+            <div className="absolute right-0 top-1/2 transform -translate-y-1/2 flex items-center space-x-3">
+              {/* Environment Selector */}
+              <EnvironmentSelector />
+              
+              {/* Dark Mode Toggle */}
+              <motion.button
+                onClick={toggleDarkMode}
+                className="p-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-all duration-200"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                aria-label="Toggle dark mode"
+              >
+                {isDarkMode ? (
+                  <Sun className="text-yellow-500" size={20} />
+                ) : (
+                  <Moon className="text-gray-600" size={20} />
+                )}
+              </motion.button>
+            </div>
+            
+            {/* Center - Title and Brain Icon aligned with Speech Foundation Service */}
+            <div className="flex items-center justify-center space-x-3">
+              <Brain className="text-red-600" size={32} />
+              <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
+                Speech Foundation - AI Platform
+              </h1>
+            </div>
           </div>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-gray-600 dark:text-gray-400 max-w-2xl text-center mx-auto">
             Foundational Speech Services to enable conversational analytics
           </p>
         </motion.div>
@@ -712,21 +1014,21 @@ export default function App() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
           >
-            <div className="flex items-center space-x-6 p-6 bg-white rounded-xl border shadow-sm">
+            <div className="flex items-center justify-center space-x-6 p-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-600 shadow-sm">
               <div className="flex items-center space-x-3">
                 <Users className="text-blue-600" size={24} />
-                <span className="text-sm font-medium text-gray-700">UBS Client</span>
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">UBS Client</span>
               </div>
               <ConversationPhone isActive={currentStage === 0} />
               <div className="flex items-center space-x-3">
                 <Users className="text-green-600" size={24} />
-                <span className="text-sm font-medium text-gray-700">Client Advisor</span>
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Client Advisor</span>
               </div>
-              <ArrowRight className="text-gray-400" size={20} />
+              <ArrowRight className="text-gray-400 dark:text-gray-500" size={20} />
               <div className="flex items-center space-x-3">
                 <Volume2 className="text-green-500" size={24} />
                 <SpeechWaves isActive={currentStage === 0} />
-                <span className="text-sm font-medium text-gray-700">Call Audio</span>
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Call Audio</span>
               </div>
             </div>
           </motion.div>
@@ -743,7 +1045,7 @@ export default function App() {
               <div className="px-2 py-1">
                 <div className="flex items-center space-x-1">
                   <Database className={`${currentStage === 0 ? 'text-red-500' : 'text-gray-400'} transition-colors`} size={14} />
-                  <span className="text-xs font-medium text-gray-700">Call & Storage → Verba</span>
+                  <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Call & Storage → Verba</span>
                 </div>
               </div>
               <ArrowDown className="text-gray-400" size={16} />
@@ -757,7 +1059,7 @@ export default function App() {
               <div className="relative flex items-center gap-6">
                 {/* Speech Foundation Service - Made Bigger */}
                 <motion.div 
-                  className="flex-1 border-2 border-green-200 rounded-xl p-8 bg-gradient-to-r from-green-50 to-green-100 relative"
+                  className="flex-1 border-2 border-green-200 dark:border-green-600 rounded-xl p-8 bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30 relative"
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.3, duration: 0.6 }}
@@ -769,7 +1071,7 @@ export default function App() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.8 }}
                   >
-                    <div className="flex items-center space-x-1 text-blue-600">
+                    <div className="flex items-center space-x-1 text-blue-600 dark:text-blue-400">
                       <AzureLogo size={14} />
                       <span className="text-xs">Deployed in Azure</span>
                     </div>
@@ -782,9 +1084,9 @@ export default function App() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
                   >
-                    <div className="flex items-center space-x-3 bg-white px-4 py-2 rounded-lg shadow-sm border border-green-200">
+                    <div className="flex items-center space-x-3 bg-white dark:bg-gray-800 px-4 py-2 rounded-lg shadow-sm border border-green-200 dark:border-green-600">
                       <Cpu className="text-green-600" size={20} />
-                      <h2 className="font-bold text-green-700">Speech Foundation Service</h2>
+                      <h2 className="font-bold text-green-700 dark:text-green-400">Speech Foundation Service</h2>
                     </div>
                   </motion.div>
                   
@@ -833,23 +1135,7 @@ export default function App() {
                     />
                   </div>
                   
-                  {/* Speech Foundation Data Flow */}
-                  <div className="absolute top-1/2 left-6 right-6 flex justify-between items-center pointer-events-none hidden md:flex">
-                    <div className="w-full grid grid-cols-3 gap-3 px-4">
-                      {[1, 2, 3].map((i) => (
-                        <div key={i} className="flex items-center justify-center">
-                          <DataFlow 
-                            isActive={currentStage > i} 
-                            delay={i * 0.5} 
-                          />
-                          <ArrowRight 
-                            className={`ml-2 ${currentStage > i ? 'text-green-500' : 'text-gray-300'}`} 
-                            size={16} 
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+
                 </motion.div>
 
                 {/* Connection Lines to LLM Services */}
@@ -911,41 +1197,41 @@ export default function App() {
                 >
                   {/* Azure OpenAI */}
                   <motion.div 
-                    className="p-4 bg-blue-50 border-2 border-blue-200 rounded-lg"
+                    className="p-4 bg-blue-50 dark:bg-blue-900/30 border-2 border-blue-200 dark:border-blue-600 rounded-lg"
                     whileHover={{ scale: 1.02 }}
                     transition={{ duration: 0.2 }}
                   >
                     <div className="flex items-center justify-center space-x-3">
-                      <Cloud className="text-blue-600" size={20} />
-                      <span className="font-semibold text-blue-700">Azure OpenAI</span>
+                      <Cloud className="text-blue-600 dark:text-blue-400" size={20} />
+                      <span className="font-semibold text-blue-700 dark:text-blue-300">Azure OpenAI</span>
                     </div>
-                    <div className="text-xs text-blue-600 text-center mt-1">GPT Models | Enterprise Security</div>
+                    <div className="text-xs text-blue-600 dark:text-blue-400 text-center mt-1">GPT Models | Enterprise Security</div>
                   </motion.div>
 
                   {/* AI Platform Container */}
                   <motion.div 
-                    className="p-4 bg-purple-50 border-2 border-purple-200 rounded-lg"
+                    className="p-4 bg-purple-50 dark:bg-purple-900/30 border-2 border-purple-200 dark:border-purple-600 rounded-lg"
                     whileHover={{ scale: 1.02 }}
                     transition={{ duration: 0.2 }}
                   >
                     <div className="text-center mb-3">
                       <div className="flex items-center justify-center space-x-2 mb-2">
-                        <Brain className="text-purple-600" size={18} />
-                        <span className="font-semibold text-purple-700">AI Platform</span>
+                        <Brain className="text-purple-600 dark:text-purple-400" size={18} />
+                        <span className="font-semibold text-purple-700 dark:text-purple-300">AI Platform</span>
                       </div>
                     </div>
                     
                     {/* AI Gateway Service inside AI Platform */}
                     <motion.div 
-                      className="p-3 bg-white border border-purple-300 rounded-md"
+                      className="p-3 bg-white dark:bg-gray-800 border border-purple-300 dark:border-purple-600 rounded-md"
                       whileHover={{ scale: 1.02 }}
                       transition={{ duration: 0.2 }}
                     >
                       <div className="flex items-center justify-center space-x-2">
-                        <Link className="text-purple-600" size={16} />
-                        <span className="font-medium text-purple-700">AI Gateway Service</span>
+                        <Link className="text-purple-600 dark:text-purple-400" size={16} />
+                        <span className="font-medium text-purple-700 dark:text-purple-300">AI Gateway Service</span>
                       </div>
-                      <div className="text-xs text-purple-600 text-center mt-1">
+                      <div className="text-xs text-purple-600 dark:text-purple-400 text-center mt-1">
                         LLM Routing | Load Balancing | Security
                       </div>
                     </motion.div>
@@ -969,37 +1255,37 @@ export default function App() {
             transition={{ delay: 1 }}
           >
             <div className="text-center mb-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Speech Foundation Service Access</h3>
-              <p className="text-sm text-gray-600">Available through multiple access methods for different UBS teams</p>
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">Speech Foundation Service Access</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Available through multiple access methods for different UBS teams</p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
               <motion.div
-                className="p-6 bg-white rounded-lg border shadow-sm"
+                className="p-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600 shadow-sm"
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.2 }}
               >
                 <div className="flex items-center space-x-3 mb-3">
                   <Monitor className="text-red-600" size={24} />
-                  <h4 className="font-semibold text-gray-800">End User UI</h4>
+                  <h4 className="font-semibold text-gray-800 dark:text-gray-200">End User UI</h4>
                 </div>
-                <p className="text-sm text-gray-600 mb-4">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                   Web-based interface for direct access to Speech Foundation Service components
                 </p>
                 
                 {/* Example Teams */}
                 <div className="space-y-2">
-                  <div className="text-xs text-gray-500 font-medium mb-2">Example Teams:</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 font-medium mb-2">Example Teams:</div>
                   <div className="flex flex-wrap gap-2">
                     <motion.span 
-                      className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-50 text-blue-700 border border-blue-200"
+                      className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-600"
                       whileHover={{ scale: 1.05 }}
                     >
                       <Users size={12} className="mr-1" />
                       GWM APAC BRO Team
                     </motion.span>
                     <motion.span 
-                      className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-50 text-green-700 border border-green-200"
+                      className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-600"
                       whileHover={{ scale: 1.05 }}
                     >
                       <Users size={12} className="mr-1" />
@@ -1010,24 +1296,24 @@ export default function App() {
               </motion.div>
               
               <motion.div
-                className="p-6 bg-white rounded-lg border shadow-sm"
+                className="p-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600 shadow-sm"
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.2 }}
               >
                 <div className="flex items-center space-x-3 mb-3">
                   <Code className="text-red-600" size={24} />
-                  <h4 className="font-semibold text-gray-800">API Integration</h4>
+                  <h4 className="font-semibold text-gray-800 dark:text-gray-200">API Integration</h4>
                 </div>
-                <p className="text-sm text-gray-600 mb-4">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                   RESTful API endpoints for programmatic access to Speech Foundation Service
                 </p>
                 
                 {/* Example Teams */}
                 <div className="space-y-2">
-                  <div className="text-xs text-gray-500 font-medium mb-2">Example Teams:</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 font-medium mb-2">Example Teams:</div>
                   <div className="flex flex-wrap gap-2">
                     <motion.span 
-                      className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-purple-50 text-purple-700 border border-purple-200"
+                      className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-600"
                       whileHover={{ scale: 1.05 }}
                     >
                       <Code size={12} className="mr-1" />
@@ -1084,7 +1370,7 @@ export default function App() {
             animate={{ opacity: 1 }}
             transition={{ delay: 1.5 }}
           >
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               Processing Cycle: {cycleCount + 1} | Stage: {currentStage + 1}/{stages.length}
             </p>
           </motion.div>
